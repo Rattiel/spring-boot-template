@@ -15,7 +15,7 @@ micrometer-tracing = { module = "io.micrometer:micrometer-tracing" }
 micrometer-tracing-bridge-otel = { module = "io.micrometer:micrometer-tracing-bridge-otel" }
 
 mockk = { module = "io.mockk:mockk", version = "1.14.7" }
-mockk-spring = { module = "com.ninja-squad:springmockk", version = "4.0.2" }
+mockk-spring = { module = "com.ninja-squad:springmockk", version = "5.0.1" }
 
 opentelemetry-api = { module = "io.opentelemetry:opentelemetry-api" }
 opentelemetry-exporter-otlp = { module = "io.opentelemetry:opentelemetry-exporter-otlp" }
