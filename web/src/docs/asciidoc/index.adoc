@@ -1,0 +1,19 @@
+= Demo Service API Documentation
+:doctype: book
+:icons: font
+:source-highlighter: coderay
+:toc: left
+:toc-title: Table of Contents
+:toclevels: 3
+:sectlinks:
+:sectnums:
+
+== 개요
+:leveloffset: +1
+include::introduction.adoc[]
+:leveloffset: -1
+
+== API 목록
+:leveloffset: +1
+include::api-endpoint.adoc[]
+:leveloffset: -1

@@ -1,0 +1,27 @@
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
+}
+
+dependencies {
+    api(libs.opentelemetry.api)
+    api(libs.micrometer.core)
+    api(libs.micrometer.tracing)
+    api(libs.slf4j.api)
+
+    implementation(platform(projects.dependencies))
+    implementation(libs.micrometer.tracing.bridge.otel)
+    implementation(libs.micrometer.registry.otlp)
+    implementation(libs.opentelemetry.exporter.otlp)
+    implementation(libs.opentelemetry.logback.appender)
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.aop)
+
+    testImplementation(libs.kotlin.test.junit5)
+    testImplementation(libs.spring.boot.starter.test)
+
+    testFixturesImplementation(platform(projects.dependencies))
+    testFixturesImplementation(libs.spring.boot.test)
+    testFixturesImplementation(libs.spring.boot.testcontainers)
+    testFixturesImplementation(libs.testcontainers.grafana)
+}

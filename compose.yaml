@@ -1,0 +1,101 @@
+version: "3.8"
+
+services:
+  prometheus:
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--enable-feature=exemplar-storage"
+      - "--enable-feature=native-histograms"
+      - "--web.enable-remote-write-receiver"
+      - "--web.enable-otlp-receiver"
+    container_name: prometheus
+    image: prom/prometheus:main
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    volumes:
+      - prometheus_data:/prometheus
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  loki:
+    command: -config.file=/etc/loki/local-config.yaml
+    container_name: loki
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    restart: unless-stopped
+
+  tempo:
+    command: -config.file=/etc/config.yml
+    container_name: tempo
+    image: grafana/tempo:latest
+    ports:
+      - "3200:3200"
+      - "4317"
+      - "4318"
+    restart: unless-stopped
+    volumes:
+      - tempo_data:/temp/tempo
+      - ./docker/tempo.yml:/etc/config.yml:ro
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+  grafana:
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./docker/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+      - ./docker/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./docker/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+
+  otel-collector:
+    command: --config=/etc/otelcol-contrib/config.yml
+    container_name: otel-collector
+    image: otel/opentelemetry-collector-contrib:latest
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+    restart: unless-stopped
+    volumes:
+      - ./docker/otel-collector.yml:/etc/otelcol-contrib/config.yml:ro
+
+  postgres:
+    environment:
+      POSTGRES_USER: ${POSTGRES_ADMIN_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_SCHEMA}
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./docker/postgres:/docker-entrypoint-initdb.d
+
+  postgres-exporter:
+    depends_on:
+      - postgres
+    environment:
+      DATA_SOURCE_URI: postgres:5432/${POSTGRES_DB_SCHEMA}?sslmode=disable
+      DATA_SOURCE_USER: ${POSTGRES_ADMIN_USERNAME}
+      DATA_SOURCE_PASS: ${POSTGRES_ADMIN_PASSWORD}
+    image: quay.io/prometheuscommunity/postgres-exporter:latest
+    ports:
+      - "9187:9187"
+    restart: unless-stopped
+
+volumes:
+  tempo_data:
+    driver: local
+  postgres_data:
+    driver: local
+  prometheus_data:
+    driver: local

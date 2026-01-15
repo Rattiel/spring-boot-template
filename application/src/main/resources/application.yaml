@@ -1,0 +1,58 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.95, 0.99
+    tags:
+      application: ${spring.application.name}
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+  observations:
+    annotations:
+      enabled: true
+
+  otlp:
+    metrics:
+      export:
+        url: http://localhost:4318/v1/metrics
+        base-time-unit: seconds
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
+    logging:
+      endpoint: http://localhost:4318/v1/logs
+
+spring:
+  application:
+    name: demo-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: admin
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  messages:
+    basename: messages
+    encoding: UTF-8
+
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          jwk-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_1I4oYuJn4/.well-known/jwks.json

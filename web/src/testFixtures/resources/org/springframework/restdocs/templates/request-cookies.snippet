@@ -1,0 +1,15 @@
+[cols="4,4", options="header"]
+|===
+|이름|설명
+
+{{#cookies}}
+|{{#tableCellContent}}
+    {{^optional}}*`+{{name}}+`*{{/optional}}
+    {{#optional}}`+{{name}}+`{{/optional}}
+{{/tableCellContent}}
+|{{#tableCellContent}}{{description}}{{/tableCellContent}}
+
+{{/cookies}}
+|===
+
+**볼드체**는 필수 항목입니다.

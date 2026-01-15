@@ -1,0 +1,76 @@
+#file: noinspection SpellCheckingInspection,KubernetesUnknownResourcesInspection
+
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    editable: true
+    uid: prometheus
+    jsonData:
+      httpMethod: POST
+      exemplarTraceIdDestinations:
+        - name: trace_id
+          datasourceUid: tempo
+
+  - name: Tempo
+    type: tempo
+    access: proxy
+    orgId: 1
+    url: http://tempo:3200
+    basicAuth: false
+    version: 1
+    editable: true
+    apiVersion: 1
+    uid: tempo
+    jsonData:
+      httpMethod: GET
+      tracesToLogsV2:
+        datasourceUid: 'loki'
+        spanStartTimeShift: '-1h'
+        spanEndTimeShift: '1h'
+        filterByTraceID: false
+        filterBySpanID: false
+        customQuery: true
+        query: '{service_name="$${__span.tags["service.name"]}"} | trace_id="$${__span.traceId}" OR traceId="$${__span.traceId}"'
+      tracesToMetrics:
+        datasourceUid: Prometheus
+      tracesToLogs:
+        datasourceUid: loki
+        mapTagNamesEnabled: true
+        filterByTraceID: true
+        filterBySpanID: true
+        spanStartTimeShift: '-10m'
+        spanEndTimeShift: '10m'
+      lokiSearch:
+        datasourceUid: loki
+      serviceMap:
+        datasourceUid: Prometheus
+      nodeGraph:
+        enabled: true
+
+  - name: Loki
+    type: loki
+    uid: loki
+    access: proxy
+    orgId: 1
+    url: http://loki:3100
+    basicAuth: false
+    version: 1
+    editable: true
+    apiVersion: 1
+    jsonData:
+      maxLines: 50
+      derivedFields:
+        - datasourceUid: tempo
+          matcherRegex: "trace_id"
+          matcherType: label
+          name: trace_id
+          url: $${__value.raw}
+        - datasourceUid: tempo
+          matcherRegex: "traceId"
+          matcherType: label
+          name: traceId
+          url: $${__value.raw}

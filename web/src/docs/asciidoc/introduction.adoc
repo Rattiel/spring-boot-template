@@ -1,0 +1,107 @@
+== 인증
+
+본 API 서버는 **OAuth 2.0** 표준을 기반으로 인증을 처리합니다. +
+로그인이 필요한 기능에 접근하기 위해서는 헤더(Header)에 발급받은 **액세스 토큰(Access Token)**을 포함해야 합니다.
+
+[NOTE]
+====
+**헤더 형식:** `Authorization: Bearer <ACCESS_TOKEN>`
+====
+
+.요청 예시
+[source,http]
+----
+GET /api/v1/profiles HTTP/1.1
+Host: example.com
+Authorization: Bearer <ACCESS_TOKEN>
+Content-Type: application/json
+----
+
+IMPORTANT: 토큰이 없거나 만료된 경우 `401 Unauthorized` 응답이 반환됩니다.
+
+'''
+
+== 에러 처리
+
+API 호출 중 에러가 발생하면, 국제 표준인 **RFC 7807** 규격에 맞춰 JSON 형태로 상세 내용을 반환합니다.
+
+=== 기본 에러 응답
+모든 에러 응답은 아래와 같은 기본 필드를 포함합니다.
+
+include::{snippets}/unknown-error/response-body.adoc[]
+include::{snippets}/unknown-error/response-fields.adoc[]
+
+=== 입력값 검증 실패 응답
+클라이언트가 보낸 데이터가 필수값이 누락되었거나 형식이 맞지 않을 경우(`400 Bad Request`), `errors` 필드가 추가됩니다.
+
+.검증 실패 예시
+include::{snippets}/validation-error/http-response.adoc[]
+include::{snippets}/validation-error/response-fields.adoc[]
+
+'''
+
+== 부록: 코드 참조
+
+=== HTTP 상태 코드
+API 응답에서 사용되는 주요 상태 코드입니다.
+
+[cols="1,2,4", options="header"]
+|===
+| 응답 코드 | 상태 | 설명
+
+| 200
+| 성공
+| 요청이 성공적으로 처리됨
+
+| 204
+| 콘텐츠 없음
+| 요청은 성공했으나, 반환할 데이터가 없음
+
+| 400
+| [[bad-request]]잘못된 요청
+| 필수 파라미터 누락 또는 형식 불일치 등 클라이언트의 요청이 잘못됨
+
+| 401
+| [[unauthorized]]인증 실패
+| 해당 리소스에 접근하기 위한 자격 증명이 없거나 유효하지 않음
+
+| 403
+| [[forbidden]]접근 금지
+| 해당 리소스에 접근할 권한이 없음
+
+| 404
+| [[not-found]]찾을 수 없음
+| 요청한 URL이나 리소스가 존재하지 않음
+
+| 405
+| [[method-not-allowed]]허용되지 않는 메소드
+| 해당 URL에서 지원하지 않는 HTTP 메소드(GET, POST 등) 호출
+
+| 406
+| [[not-acceptable]]허용되지 않음
+| 클라이언트가 요청한 응답 형식을 서버가 지원하지 않음
+
+| 413
+| [[payload-too-large]]요청 데이터 너무 큼
+| 업로드한 파일이나 요청 본문의 크기가 서버 허용량을 초과함
+
+| 415
+| [[unsupported-media-type]]지원하지 않는 미디어 타입
+| 클라이언트가 보낸 Content-Type을 서버가 지원하지 않음
+
+| 500
+| [[internal-server-error]]서버 내부 오류
+| 서버에서 알 수 없는 에러가 발생함
+
+| 503
+| [[service-unavailable]]서비스 이용 불가
+| 서버 점검 혹은 과부하로 인해 일시적으로 서비스 이용 불가
+|===
+
+=== 비즈니스 에러
+에러 응답 JSON의 `type` 필드 등에서 확인할 수 있는 상세 에러 분류입니다.
+
+==== 게시판 API
+게시글 작성, 수정, 조회 등 게시판 기능과 관련된 에러입니다.
+
+include::{snippets}/unknown-error/board-error-code.adoc[]
