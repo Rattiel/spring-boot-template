@@ -11,6 +11,9 @@ dependencies {
         classifier("jakarta")
     })
 
+    annotationProcessor(platform(projects.dependencies))
+    annotationProcessor(libs.spring.boot.configuration.processor)
+
     api(libs.spring.data.commons)
     api(libs.spring.tx)
 
@@ -23,6 +26,7 @@ dependencies {
 
     testImplementation(libs.kotlin.test.junit5)
     testImplementation(libs.mockk)
+    testImplementation(libs.spring.boot.starter.data.jpa.test)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(testFixtures(projects.observability))
 

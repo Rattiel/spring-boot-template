@@ -35,13 +35,13 @@ class GlobalExceptionController(
 
     @ExceptionHandler(ErrorCodeException::class)
     fun handleErrorCode(ex: ErrorCodeException, request: WebRequest): ResponseEntity<Any> {
-        // @formatter:off
-        val builder = ErrorResponse.builder(ex, ex.errorCode.status, ex.errorCode.message)
+        var builder = ErrorResponse.builder(ex, ex.errorCode.status, ex.errorCode.message)
             .typeMessageCode("problemDetail.type.${ex.errorCode.name}")
             .titleMessageCode("problemDetail.title.${ex.errorCode.name}")
             .detailMessageCode("problemDetail.${ex.errorCode.name}")
-            .detailMessageArguments(ex.args)
-        // @formatter:on
+        ex.args?.let {
+            builder = builder.detailMessageArguments(*it)
+        }
         val body = builder.build().updateAndGetBody(this.messageSource, LocaleContextHolder.getLocale())
         return createResponseEntity(body, HttpHeaders.EMPTY, ex.errorCode.status, request)
     }

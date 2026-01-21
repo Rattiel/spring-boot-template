@@ -28,10 +28,15 @@ management:
       export:
         url: http://localhost:4318/v1/metrics
         base-time-unit: seconds
+  opentelemetry:
     tracing:
-      endpoint: http://localhost:4318/v1/traces
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
     logging:
-      endpoint: http://localhost:4318/v1/logs
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/logs
 
 spring:
   application:

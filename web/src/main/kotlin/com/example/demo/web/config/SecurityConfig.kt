@@ -1,7 +1,6 @@
 package com.example.demo.web.config
 
 import com.example.demo.web.core.SecurityExceptionHandler
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,6 +11,7 @@ import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.savedrequest.NullRequestCache
+import tools.jackson.databind.ObjectMapper
 
 @Configuration
 @EnableWebSecurity

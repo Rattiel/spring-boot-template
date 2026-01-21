@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Assertions.assertIterableEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.springframework.data.core.PropertyReferenceException
 import org.springframework.data.domain.Sort
-import org.springframework.data.mapping.PropertyReferenceException
 
 class QueryDslTests {
     @Suppress("unused")
@@ -107,7 +107,7 @@ class QueryDslTests {
 
         // then
         val expected = listOf(
-            OrderSpecifier(Order.ASC, Expressions.numberPath(Integer::class.java, user, User::age.name)),
+            OrderSpecifier(Order.ASC, Expressions.numberPath(Int::class.java, user, User::age.name)),
         )
         assertIterableEquals(expected, result.toList())
     }
