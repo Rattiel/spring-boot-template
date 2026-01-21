@@ -28,7 +28,11 @@ class PostJpaRepositoryTests {
     lateinit var entityManager: TestEntityManager
 
     @Autowired
-    lateinit var sessionFactory: SessionFactory
+    lateinit var entityManagerFactory: EntityManagerFactory
+
+    val sessionFactory: SessionFactory by lazy {
+        entityManagerFactory.unwrap(SessionFactory::class.java)
+    }
 
     @Autowired
     lateinit var repository: PostJpaRepository
