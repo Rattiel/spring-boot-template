@@ -5,6 +5,10 @@ plugins {
 val asciidoctorExt = configurations.create("asciidoctorExt")
 val snippetsDir = file("build/generated-snippets")
 
+asciidoctorj {
+    setVersion("3.0.0")
+}
+
 tasks.asciidoctor {
     configurations(asciidoctorExt.name)
 
@@ -13,7 +17,7 @@ tasks.asciidoctor {
         include("**/index.adoc")
     }
 
-    forkOptions {
+    jvm {
         jvmArgs("--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED")
         jvmArgs("--add-opens", "java.base/java.io=ALL-UNNAMED")
         jvmArgs("--enable-native-access=ALL-UNNAMED")

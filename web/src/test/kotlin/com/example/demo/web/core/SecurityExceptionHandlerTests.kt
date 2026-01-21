@@ -1,6 +1,5 @@
 package com.example.demo.web.core
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.*
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -13,6 +12,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ProblemDetail
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.authentication.InsufficientAuthenticationException
+import tools.jackson.databind.ObjectMapper
 import java.io.PrintWriter
 import java.net.URI
 import java.nio.charset.StandardCharsets

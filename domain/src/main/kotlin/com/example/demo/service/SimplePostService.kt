@@ -8,9 +8,9 @@ import com.example.demo.model.Post
 import com.example.demo.model.User
 import com.example.demo.repository.CategoryJpaRepository
 import com.example.demo.repository.PostJpaRepository
+import org.springframework.data.core.PropertyReferenceException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.mapping.PropertyReferenceException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

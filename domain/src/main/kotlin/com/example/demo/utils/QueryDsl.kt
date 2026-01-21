@@ -5,10 +5,10 @@ import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.EntityPathBase
 import com.querydsl.core.types.dsl.PathBuilder
+import org.springframework.data.core.PropertyPath
+import org.springframework.data.core.PropertyReferenceException
+import org.springframework.data.core.TypeInformation
 import org.springframework.data.domain.Sort
-import org.springframework.data.mapping.PropertyPath
-import org.springframework.data.mapping.PropertyReferenceException
-import org.springframework.data.util.TypeInformation
 
 object QueryDsl {
     @Suppress("UNCHECKED_CAST")

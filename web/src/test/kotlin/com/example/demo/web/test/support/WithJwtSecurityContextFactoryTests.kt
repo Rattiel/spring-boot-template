@@ -5,7 +5,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertIterableEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -13,8 +12,10 @@ import org.junit.jupiter.api.assertInstanceOf
 import org.junit.jupiter.api.assertNull
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.FactorGrantedAuthority
 import org.springframework.security.oauth2.jwt.Jwt
 import java.time.Instant
+import kotlin.collections.sorted
 
 @ExtendWith(MockKExtension::class)
 class WithJwtSecurityContextFactoryTests {
@@ -22,6 +23,10 @@ class WithJwtSecurityContextFactoryTests {
     lateinit var withJwt: WithJwt
 
     lateinit var factory: WithJwtSecurityContextFactory
+
+    companion object {
+        val JWT_FACTOR_AUTHORITY = listOf(FactorGrantedAuthority.BEARER_AUTHORITY)
+    }
 
     @BeforeEach
     fun setup() {
@@ -46,7 +51,8 @@ class WithJwtSecurityContextFactoryTests {
         val context = factory.createSecurityContext(withJwt)
 
         // then
-        val jwt = assertInstanceOf<Jwt>(context.authentication.principal)
+
+        val jwt = assertInstanceOf<Jwt>(context.authentication!!.principal)
         assertEquals("https://issuer.example.com", jwt.issuer.toString())
         assertEquals("mock-test-subject", jwt.subject)
         assertIterableEquals(listOf("https://audience.example.com"), jwt.audience)
@@ -55,7 +61,7 @@ class WithJwtSecurityContextFactoryTests {
         assertNull(jwt.issuedAt)
         assertEquals("jti", jwt.id)
 
-        assertTrue(context.authentication.authorities.isEmpty())
+        assertIterableEquals(JWT_FACTOR_AUTHORITY, context.authentication!!.authorities.map(GrantedAuthority::getAuthority))
     }
 
     @DisplayName("커스텀 Claims(key=value)가 주어지면 JWT Claim 맵에 포함된다")
@@ -76,7 +82,7 @@ class WithJwtSecurityContextFactoryTests {
         val context = factory.createSecurityContext(withJwt)
 
         // then
-        val jwt = assertInstanceOf<Jwt>(context.authentication.principal)
+        val jwt = assertInstanceOf<Jwt>(context.authentication!!.principal)
         assertNull(jwt.issuer)
         assertNull(jwt.subject)
         assertNull(jwt.audience)
@@ -87,7 +93,7 @@ class WithJwtSecurityContextFactoryTests {
         assertEquals("test@example.com", jwt.claims["email"])
         assertEquals("dev", jwt.claims["group"])
 
-        assertTrue(context.authentication.authorities.isEmpty())
+        assertIterableEquals(JWT_FACTOR_AUTHORITY, context.authentication!!.authorities.map(GrantedAuthority::getAuthority))
     }
 
     @DisplayName("유효한 시간 문자열이 주어지면 Instant로 파싱되어 설정된다")
@@ -112,7 +118,7 @@ class WithJwtSecurityContextFactoryTests {
         val context = factory.createSecurityContext(withJwt)
 
         // then
-        val jwt = assertInstanceOf<Jwt>(context.authentication.principal)
+        val jwt = assertInstanceOf<Jwt>(context.authentication!!.principal)
         assertNull(jwt.issuer)
         assertNull(jwt.subject)
         assertNull(jwt.audience)
@@ -121,7 +127,7 @@ class WithJwtSecurityContextFactoryTests {
         assertEquals(Instant.parse(expectedIssuedAt), jwt.issuedAt)
         assertNull(jwt.id)
 
-        assertTrue(context.authentication.authorities.isEmpty())
+        assertIterableEquals(JWT_FACTOR_AUTHORITY, context.authentication!!.authorities.map(GrantedAuthority::getAuthority))
     }
 
     @DisplayName("scope 클레임이 주어지면 SCOPE_ 접두사가 붙은 권한 목록으로 변환된다")
@@ -142,7 +148,7 @@ class WithJwtSecurityContextFactoryTests {
         val context = factory.createSecurityContext(withJwt)
 
         // then
-        val jwt = assertInstanceOf<Jwt>(context.authentication.principal)
+        val jwt = assertInstanceOf<Jwt>(context.authentication!!.principal)
         assertNull(jwt.issuer)
         assertNull(jwt.subject)
         assertNull(jwt.audience)
@@ -151,8 +157,8 @@ class WithJwtSecurityContextFactoryTests {
         assertNull(jwt.issuedAt)
         assertNull(jwt.id)
 
-        val expectedAuthorities = listOf("SCOPE_profile", "SCOPE_email", "SCOPE_phone")
-        val actualAuthorities = context.authentication.authorities.map(GrantedAuthority::getAuthority)
-        assertIterableEquals(expectedAuthorities, actualAuthorities)
+        val expectedAuthorities = listOf("SCOPE_profile", "SCOPE_email", "SCOPE_phone") + JWT_FACTOR_AUTHORITY
+        val actual = context.authentication!!.authorities.mapNotNull(GrantedAuthority::getAuthority)
+        assertIterableEquals(expectedAuthorities.sorted(), actual.sorted())
     }
 }

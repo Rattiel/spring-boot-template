@@ -17,9 +17,9 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.springframework.data.core.PropertyReferenceException
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.mapping.PropertyReferenceException
 import org.springframework.data.repository.findByIdOrNull
 
 class SimplePostServiceTests {

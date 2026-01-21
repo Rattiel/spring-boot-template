@@ -1,18 +1,18 @@
-package com.example.demo.api
+package com.example.demo.web
 
 import com.example.demo.config.TestContainerConfig
 import com.example.demo.web.request.CategoryRequest
 import com.example.demo.web.test.support.WithJwt
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.*
 import org.springframework.transaction.annotation.Transactional
+import tools.jackson.databind.ObjectMapper
 
 @AutoConfigureMockMvc
 @Import(TestContainerConfig::class)
