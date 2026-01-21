@@ -4,13 +4,11 @@ plugins {
 }
 
 dependencies {
-    api(libs.opentelemetry.api)
     api(libs.micrometer.core)
     api(libs.micrometer.tracing)
     api(libs.slf4j.api)
 
     implementation(platform(projects.dependencies))
-    implementation(libs.opentelemetry.exporter.otlp)
     implementation(libs.opentelemetry.logback.appender)
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.aspectj)

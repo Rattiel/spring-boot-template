@@ -15,8 +15,6 @@ micrometer-tracing = { module = "io.micrometer:micrometer-tracing" }
 mockk = { module = "io.mockk:mockk", version = "1.14.7" }
 mockk-spring = { module = "com.ninja-squad:springmockk", version = "5.0.1" }
 
-opentelemetry-api = { module = "io.opentelemetry:opentelemetry-api" }
-opentelemetry-exporter-otlp = { module = "io.opentelemetry:opentelemetry-exporter-otlp" }
 opentelemetry-logback-appender = { module = "io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0", version = "2.23.0-alpha" }
 
 org-asciidoctor-jvm-convert-gradle-plugin = { module = "org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin", version = "4.0.5" }
