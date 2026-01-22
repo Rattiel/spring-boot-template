@@ -1,6 +1,6 @@
 # Spring Boot with Kotlin
 
-[![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot.svg?label=Spring%20Boot&filter=3*&logo=spring-boot)](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot)
+[![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot.svg?label=Spring%20Boot&filter=4*&logo=spring-boot)](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.0.0-blue.svg?logo=kotlin)](https://kotlinlang.org)
 [![ci](https://github.com/Rattiel/spring-boot-template/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Rattiel/spring-boot-template/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Rattiel/spring-boot-template/graph/badge.svg?token=Y5903aP5R4)](https://codecov.io/gh/Rattiel/spring-boot-template)
