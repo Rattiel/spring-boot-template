@@ -18,6 +18,7 @@ dependencies {
     api(libs.spring.tx)
 
     implementation(platform(projects.dependencies))
+    implementation(libs.datasource.micrometer.spring.boot)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(variantOf(libs.querydsl.jpa) {
         classifier("jakarta")
