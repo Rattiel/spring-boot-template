@@ -23,6 +23,7 @@ plugins {
 
 rootProject.name = "demo"
 
+module(name = ":ai", path = "ai")
 module(name = ":application", path = "application")
 module(name = ":dependencies", path = "dependencies")
 module(name = ":domain", path = "domain")

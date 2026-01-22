@@ -28,6 +28,7 @@ querydsl-jpa = { module = "com.querydsl:querydsl-jpa" }
 
 slf4j-api = { group = "org.slf4j", name = "slf4j-api" }
 
+spring-ai-bom = { module = "org.springframework.ai:spring-ai-bom", version = "2.0.0-M1" }
 spring-boot-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }

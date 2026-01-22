@@ -7,5 +7,6 @@ javaPlatform {
 }
 
 dependencies {
+    api(platform(libs.spring.ai.bom))
     api(platform(libs.spring.boot.dependencies))
 }
