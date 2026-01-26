@@ -15,6 +15,8 @@ dependencies {
     implementation(libs.spring.boot.starter.opentelemetry)
 
     testImplementation(libs.kotlin.test.junit5)
+    testImplementation(libs.spring.boot.starter.actuator.test)
+    testImplementation(libs.spring.boot.starter.aspectj.test)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.boot.starter.opentelemetry.test)
 

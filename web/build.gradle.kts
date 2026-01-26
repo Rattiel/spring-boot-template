@@ -26,16 +26,18 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.mockk.spring)
     testImplementation(libs.spring.boot.restdocs)
+    testImplementation(libs.spring.boot.starter.security.test)
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.starter.validation.test)
     testImplementation(libs.spring.restdocs.mockmvc)
     testImplementation(testFixtures(projects.domain))
     testImplementation(testFixtures(projects.observability))
 
-    testFixturesApi(libs.spring.boot.starter.security.test)
     testFixturesApi(libs.spring.boot.starter.webmvc.test)
 
     testFixturesImplementation(platform(projects.dependencies))
     testFixturesImplementation(libs.spring.boot.starter.oauth2.resource.server)
+    testFixturesImplementation(libs.spring.boot.starter.security.test)
     testFixturesImplementation(libs.spring.security.test)
 }
 
