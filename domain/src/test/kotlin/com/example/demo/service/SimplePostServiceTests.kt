@@ -208,7 +208,9 @@ class SimplePostServiceTests {
             val categoryId = 1L
             val pageable = PageRequest.of(0, 10)
 
-            every { postJpaRepository.findByCategoryId(categoryId, pageable) } throws mockk<PropertyReferenceException>()
+            every { postJpaRepository.findByCategoryId(categoryId, pageable) } throws mockk<PropertyReferenceException>().also {
+                every { it.propertyName } returns "error"
+            }
             every { categoryJpaRepository.existsById(categoryId) } returns true
 
             // when & then
