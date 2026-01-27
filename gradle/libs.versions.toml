@@ -14,7 +14,7 @@ kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", versi
 micrometer-core = { module = "io.micrometer:micrometer-core" }
 micrometer-tracing = { module = "io.micrometer:micrometer-tracing" }
 
-mockk = { module = "io.mockk:mockk", version = "1.14.7" }
+mockk = { module = "io.mockk:mockk", version = "1.14.9" }
 mockk-spring = { module = "com.ninja-squad:springmockk", version = "5.0.1" }
 
 opentelemetry-logback-appender = { module = "io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0", version = "2.24.0-alpha" }
